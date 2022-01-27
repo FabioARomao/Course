@@ -6,11 +6,11 @@ on:
     branches:
       - main
     paths:
-      - eks/**
+      - eks-teste/eks/**
   
   pull_request: # [master, next]
     paths:
-      - eks/**
+      - eks-teste/eks/**
 
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
-        working-directory: eks
+        working-directory: eks-teste/eks
         shell: bash
 
     steps:
