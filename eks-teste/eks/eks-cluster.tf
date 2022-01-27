@@ -26,7 +26,7 @@ module "eks" {
     {
       name                          = "worker-group-2"
       instance_type                 = "t2.micro"
-      additional_userdata           = "echo foo bar2"
+      additional_userdata           = "echo foo bar22"
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
       asg_desired_capacity          = 1
     },
