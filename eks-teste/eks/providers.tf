@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "romao-eks-teste"
-    key    = "romao-eks-teste/key"
+    bucket = "romaoeksdeteste"
+    key    = "romaoeksdeteste/for/my/eks"
     region = "sa-east-1"
   }
 }
