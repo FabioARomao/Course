@@ -4,7 +4,7 @@ module "eks" {
   cluster_version = "1.21"
   tags = {
     Environment = "testando"
-    GithubRepo  = "terraform-aws-eks"
+    GithubRepo  = "terraform-aws-eksone"
     GithubOrg   = "terraform-aws-modules"
   }
 
