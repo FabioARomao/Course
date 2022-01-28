@@ -3,9 +3,9 @@ variable "region" {
   description = "AWS region"
 }
 
-provider "aws" {
-  region = "sa-east-1"
-}
+#provider "aws" {
+#  region = "sa-east-1"
+#}
 
 data "aws_availability_zones" "available" {}
 
