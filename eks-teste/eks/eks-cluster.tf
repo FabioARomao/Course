@@ -40,7 +40,7 @@ module "eks" {
             weighted_capacity = "1"
           },
           {
-            instance_type     = "t2.micro"
+            instance_type     = "t2.small"
             weighted_capacity = "2"
           },
         ]
