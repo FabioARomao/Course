@@ -3,8 +3,15 @@ variable "region" {
   description = "AWS region"
 }
 
+#provider "aws" {
+#  region = "sa-east-1"
+#}
+
 provider "aws" {
-  region = "sa-east-1"
+  region  = "${var.region}"
+  profile = "${var.profile}"   
+  access_key=AKIASHECXJVQDVK5SK4R
+  secret_key=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
 }
 
 data "aws_availability_zones" "available" {}
