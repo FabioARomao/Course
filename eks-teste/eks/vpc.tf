@@ -5,6 +5,7 @@ variable "region" {
 
 provider "aws" {
   region = "sa-east-1"
+  profile = "novachave"
 }
 
 data "aws_availability_zones" "available" {}
