@@ -20,12 +20,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PWD }}
 
-      #- name: Docker Build and Push
-      #  uses: docke/build-push-action@v2.7.0
-      #  with:
-      #    context: app/app
-      #    file: app/app/Dockerfile
-      #    push: true
-      #    tags: |
-      #      fabioromao/testeapp:latest
-      #      fabioromao/testeapp:${{ github.run_number }}
+      - name: Docker Build and Push
+        uses: docker/build-push-action@v2.10.0
+        with:
+          context: app/app
+          file: app/app/Dockerfile
+          push: true
+          tags: |
+            fabioromao/testeapp:latest
+            fabioromao/testeapp:${{ github.run_number }}
