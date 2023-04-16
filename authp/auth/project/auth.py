@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
@@ -66,3 +66,22 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
+@auth.route('/usuarios', methods = ['GET'])
+def usuario():
+    if(request.method == 'GET'):
+        #lista = User.query.filter_by(email='fabio@fabio.com.br').first()
+        #if lista:
+        #    print(lista)
+        #    return str(lista)
+        #else:
+        #    return str('nao possui usuario cadastrado')
+
+        data = [{
+            "Modules" : 16,
+            "Subject" : "estrutura de dados e algoritmos 1",
+        },
+        {
+            "Modules" : 17,
+            "Subject" : "estrutura de dados e algoritmos 2",
+        }]
+        return jsonify(data)

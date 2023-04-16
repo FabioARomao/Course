@@ -1,7 +1,10 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from . import db
-import requests
+#import requests
+import os
+from . import leitura
+
 
 main = Blueprint('main', __name__)
 
@@ -23,7 +26,10 @@ def dashboard():
 @main.route('/callback')
 @login_required
 def callback():
-    #return render_template('callback.html', name=current_user.name)
-    language = request.args.get('language')
 
-    return '''<h1>The language value is: {}</h1>'''.format(language)    
+    return nomes
+    #language = request.args.get('language')
+    #return '''<h1>{}</h1>'''.format(language)
+
+nomes = leitura.leitura_de_arquivo("babys.json")
+
