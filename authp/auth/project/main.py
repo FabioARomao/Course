@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from . import db
-#import requests
+from .models import User
 import os
 from . import leitura
 
@@ -26,15 +26,33 @@ def dashboard():
 @main.route('/usuarios')
 @login_required
 def usuario():
-    return render_template('usuario.html', name=current_user.nome)
+    language = request.args.get('language')
+    nomes = leitura.leitura_de_arquivo("babys.json")
+    html_nomes = ""
+    for nome in nomes:
+        html_nomes += "<h1>{}</h1>".format(nome)
+    return render_template('usuario.html', html_nomes)   
+    #return html_nomes
+    #return render_template('usuario.html', name=current_user.nome)
 
 @main.route('/callback')
 @login_required
 def callback():
+    language = request.args.get('language')
+    nomes = leitura.leitura_de_arquivo("babys.json")
+    html_nomes = ""
+    for nome in nomes:
+        html_nomes += "<h1>{}</h1>".format(nome)
+    return html_nomes
 
-    return nomes
-    #language = request.args.get('language')
-    #return '''<h1>{}</h1>'''.format(language)
-
-nomes = leitura.leitura_de_arquivo("babys.json")
+@main.route('/callback2')
+@login_required
+def callback2():
+    language = request.args.get('language')
+    nomes = User.query.all()
+    html_nomes = ""
+    for nome in nomes:
+        html_nomes += "<h1>{}</h1>".format(nome)
+    print(html_nomes)    
+    return html_nomes
 
