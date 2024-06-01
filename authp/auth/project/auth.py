@@ -2,33 +2,35 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
-from flask_login import login_user, login_required, logout_user
+from flask_login import current_user, login_required, logout_user, login_user
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+#@auth.route('/login')
+#def login():
+#    return render_template('login.html')
+
+@auth.route('/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.profile'))
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        #remember = True if request.form.get('remember') else False
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            print(email, password)
+            return redirect(url_for('main.profile'))
+            #return redirect(url_for('dashboard'))
+        else:
+            flash("Usuario ou senhas invalidos ou nao existe")
+    
+        if not user or not check_password_hash(user.password, password):
+            return redirect(url_for('auth.login'))
+        
     return render_template('login.html')
-
-@auth.route('/login', methods=['POST'])
-def login_post():
-    #login_user(user, remember=remember)
-    #return redirect(url_for('main.profile'))
-
-    email = request.form.get('email')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
-    
-    user = User.query.filter_by(email=email).first()
-    if user:
-        print(user)
-    else:
-        print('Usuario nao existe, cadastrar')
-    
-    if not user or not check_password_hash(user.password, password):
-        return redirect(url_for('auth.login'))
-    login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
     
 @auth.route('/signup')
 def signup():
@@ -38,21 +40,21 @@ def signup():
 def signup_post():
     #return redirect(url_for('auth.login'))
     email = request.form.get('email')
-    name = request.form.get('name')
+    nome = request.form.get('nome')
     password = request.form.get('password')
     
     user = User.query.filter_by(email=email).first()
     if user:
-        print(user.name)
+        print(user.email)
     else:
         pass
     
     if user:
-        flash('Email ja esta registrado', 'success')
-        return redirect(url_for('auth.signup'))
+        flash('Email ja esta registrado', 'warning')
+        return redirect(url_for('auth.login'))
     
     #create a new user
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+    new_user = User(email=email, nome=nome, password=generate_password_hash(password, method='pbkdf2:sha1', salt_length=8))
     
     #add the user to database
     db.session.add(new_user)
@@ -68,20 +70,7 @@ def logout():
 
 @auth.route('/usuarios', methods = ['GET'])
 def usuario():
-    if(request.method == 'GET'):
-        #lista = User.query.filter_by(email='fabio@fabio.com.br').first()
-        #if lista:
-        #    print(lista)
-        #    return str(lista)
-        #else:
-        #    return str('nao possui usuario cadastrado')
-
-        data = [{
-            "Modules" : 16,
-            "Subject" : "estrutura de dados e algoritmos 1",
-        },
-        {
-            "Modules" : 17,
-            "Subject" : "estrutura de dados e algoritmos 2",
-        }]
-        return jsonify(data)
+    users = User.query.all()
+    print(type(users))
+    user_list = [{"nome": user.nome, "email": user.email} for user in users] #inserir no for , "data_file": user.data_file
+    return render_template('usuario.html', users=user_list)

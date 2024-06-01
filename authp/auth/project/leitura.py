@@ -2,7 +2,7 @@ import os
 #Mal exemplo Nao utilizar
 #def leituraDeArquivo()
 def leitura_de_arquivo(nome_arquivo):
-  arquivo_caminho = os.path.join("/home/romao/Workfromao/Course/authp/auth/project/", nome_arquivo)
+  arquivo_caminho = os.path.join("/home/mkom/Workfromao/Course/authp/auth/project/", nome_arquivo)
   arquivo = open(arquivo_caminho, "r")
   #print(arquivo.readlines())
   lista = []

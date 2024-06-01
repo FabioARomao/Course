@@ -16,12 +16,17 @@ def index():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name=current_user.name)
+    return render_template('profile.html', name=current_user.nome)
 
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', name=current_user.name)
+    return render_template('dashboard.html', name=current_user.nome)
+
+@main.route('/usuarios')
+@login_required
+def usuario():
+    return render_template('usuario.html', name=current_user.nome)
 
 @main.route('/callback')
 @login_required
