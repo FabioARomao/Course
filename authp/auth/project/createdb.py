@@ -35,7 +35,7 @@ cursor.execute(sql)
 print("Table created successfully........")
 
 #Preparing query to create a users
-sql1 = "insert into logins (nome,email,password)values('fabio', 'fabio@fabio.com.br', 'fabio')"
+sql1 = "insert into logins (nome,email,password)values('%s', '%s', '%s')"
 
 #Creating a users
 cursor.execute(sql1)
