@@ -73,12 +73,3 @@ def logout():
         del session['voce ja esta logado']
     flash('Voce se desconectou com sucesso', 'success')
     return redirect(url_for('auth.login'))
-
-@auth.route('/usuarios', methods = ['GET'])
-def usuario():
-    users = User.query.all()
-    print(type(users))
-    user_list = [{"nome": user.nome, "email": user.email} for user in users] #inserir no for , "data_file": user.data_file
-    print(user_list)
-    #del[user_list]['nome':'']
-    return render_template('usuario.html', users=user_list)

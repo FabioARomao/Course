@@ -24,7 +24,7 @@ def dashboard():
     return render_template('dashboard.html', name=current_user.nome)
 
 @main.route('/usuarios')
-@login_required
+#login_required
 def usuario():
     language = request.args.get('language')
     nomes = leitura.leitura_de_arquivo("babys.json")
@@ -34,6 +34,16 @@ def usuario():
     return render_template('usuario.html', html_nomes)   
     #return html_nomes
     #return render_template('usuario.html', name=current_user.nome)
+
+@main.route('/usuarios1', methods = ['GET'])
+#@login_required
+def usuario1():
+    users = User.query.all()
+    print(type(users))
+    user_list = [{"nome": user.nome, "email": user.email} for user in users] #inserir no for , "data_file": user.data_file
+    print(user_list)
+    #del[user_list]['nome':'']
+    return render_template('usuario.html', users=user_list)
 
 @main.route('/callback')
 @login_required
