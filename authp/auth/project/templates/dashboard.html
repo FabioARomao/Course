@@ -1,12 +1,63 @@
-{% extends "base.html" %}
-
 {% block content %}
-<h2>Welcome, {{ user }}!</h2>
-{% if user in users and users[user]['data_file'] %}
-    <img src="{{ url_for('static', filename='plot.png') }}" alt="User Data Plot">
-{% else %}
-    <p>No data available to display.</p>
-{% endif %}
-<br>
-<a href="{{ url_for('auth.logout') }}">Logout</a>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GraffBack</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css" />
+</head>
+
+<body>
+    <section class="hero is-fullheight-with-navbar is-dark">
+        <div id="navbarBasicExample" 
+          class="navbar-menu">
+        <div class="navbar-start">
+        <a href="{{ url_for('main.index') }}" class="navbar-item">
+            Home
+        </a>
+  
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.profile') }}" class="navbar-item">
+            Profile
+        </a>
+        {% endif %}
+  
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.usuario') }}" class="navbar-item">
+            
+        </a>
+        {% endif %}
+
+        </div>
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <div class="buttons">
+                  <a class="button is-danger", href="{{ url_for('auth.logout') }}">
+                    <strong>Logout</strong>
+                   </a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+               {% if usuario in usuarios and usuario[usuario]['data_file'] %}
+                <img src="{{ url_for('static', filename='plot.png') }}" alt="User Data Plot">
+                {% else %}
+                <p>Sem dados para demonstrar</p>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+</div>
+      </section>
+  </body>
+
 {% endblock %}

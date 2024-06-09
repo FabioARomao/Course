@@ -6,13 +6,14 @@
     <tr>
         <th>Nome</th>
         <th>E-mail</th>
-        <th>Data File</th>
+
     </tr>
-    {% for user in usuario1 %}
+    {% for usuario in usuarios %}
     <tr>
-        <td>{{ user.nome }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.data_file }}</td>
+        <td>{{ usuario.nome }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.email }}</td>
+
     </tr>
     {% endfor %}
 </table>
