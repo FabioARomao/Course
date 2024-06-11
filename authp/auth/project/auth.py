@@ -5,6 +5,7 @@ from . import db
 from flask_login import LoginManager, UserMixin, current_user, login_required, logout_user, login_user
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 auth = Blueprint('auth', __name__)
 
@@ -24,7 +25,7 @@ def login():
         #remember = True if request.form.get('remember') else False
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
-            #user = User(email)
+            user = users.get(email)
             login_user(user)
             print(email, password)
             return redirect(url_for('main.profile'))
@@ -47,22 +48,26 @@ users = {
 def dashboard():
     user_data_file = None
     for email, user in users.items():
+        print(email, user)
         if user['id'] == current_user.id:
             user_data_file = user['data_file']
+            print(user_data_file)
             break
-    print(user_data_file)
-    if not user_data_file:
+    #print(user_data_file)
+    if not user_data_file or not os.path.exists(user_data_file):
         flash('Nao exitem dados para seu Usuario')
         return render_template('dashboard.html', name=current_user.id, data_available=False)
     #elif current_user.username == 'Guest':
     #    flash('Please login in to see your stream!', 'error')
     #    return redirect(url_for('index'))
-    if user_data_file.endswith('.csv'):
-        data = pd.read_csv(user_data_file)
-    elif user_data_file.endswith('json'):
-        data = pd.read_json(user_data_file)
-    else:
-        data = pd.DataFrame()
+    data = pd.DataFrame()
+    if user_data_file:
+        if user_data_file.endswith('.csv'):
+            data = pd.read_csv(user_data_file)
+        elif user_data_file.endswith('json'):
+            data = pd.read_json(user_data_file)
+        else:
+            data = pd.DataFrame()
 
     if not data.empty:
         plot = data.plot(kind='bar')
